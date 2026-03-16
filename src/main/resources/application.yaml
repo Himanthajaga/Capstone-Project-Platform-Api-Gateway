@@ -8,39 +8,3 @@ spring:
   cloud:
     config:
       uri: http://config.platform:9000
-      fail-fast: true
-    gateway:
-      server:
-        webflux:
-          routes:
-            - id: student-service-direct
-              uri: http://localhost:8000
-              predicates:
-                - Path=/api/v1/students,/api/v1/students/**
-
-            - id: program-service
-              uri: lb://PROGRAM-SERVICE
-              predicates:
-                - Path=/api/v1/programs,/api/v1/programs/**
-
-            - id: enrollment-service
-              uri: lb://ENROLLMENT-SERVICE
-              predicates:
-                - Path=/api/v1/enrollments,/api/v1/enrollments/**
-
-server:
-  port: 7000
-
-management:
-  endpoint:
-    gateway:
-      access: unrestricted
-  endpoints:
-    web:
-      exposure:
-        include: health,info,gateway
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    org.springframework.cloud.loadbalancer: DEBUG
